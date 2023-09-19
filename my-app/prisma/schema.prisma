@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Monetary values are represented as Big Int's, the decimal value is the last 2 digits (E.g. 1000 = 10.00)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.sqlite"
+}
+
+model File {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String?
+  phoneNumber String?
+  address     String?
+  createdAt   DateTime @default(now())
+  personal    Boolean
+  matters     Matter[]
+}
+
+model Matter {
+  file        File          @relation(fields: [fileId], references: [id])
+  fileId      Int
+  matter      Int
+  department  String
+  createdAt   DateTime      @default(now())
+  inCharge    String
+  totalMoney  BigInt        @default(0)
+  Transaction Transaction[]
+
+  @@id([fileId, matter])
+}
+
+model Transaction {
+  id                Int      @id @default(autoincrement())
+  matterRel         Matter   @relation(fields: [file, matter], references: [fileId, matter])
+  file              Int
+  matter            Int
+  date              DateTime @default(now())
+  transactionMethod String
+  description       String
+  value             BigInt
+  card              Card     @relation(fields: [cardNumber], references: [cardNumber])
+  cardNumber        String
+}
+
+model Card {
+  cardNumber   String        @id
+  bankName     String
+  totalMoney   BigInt        @default(0)
+  Transactions Transaction[]
+}

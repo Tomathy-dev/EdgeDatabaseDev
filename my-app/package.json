@@ -14,7 +14,11 @@
 		"test:integration": "playwright test",
 		"test:unit": "vitest"
 	},
+	"prisma": {
+		"seed": "node prisma/seed.js"
+	},
 	"devDependencies": {
+		"@faker-js/faker": "^8.0.2",
 		"@iconify/svelte": "^3.1.4",
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
@@ -34,5 +38,9 @@
 		"vite": "^4.4.2",
 		"vitest": "^0.32.2"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@prisma/client": "^5.2.0",
+		"prisma": "^5.2.0"
+	}
 }
